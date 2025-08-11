@@ -7,17 +7,30 @@ const generateToken = (id) => {
 };
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, username, email, password, phoneNumber, address, role } =
+    req.body;
   try {
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ username });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({
+      name,
+      username,
+      email,
+      password,
+      phoneNumber,
+      address,
+      role,
+    });
     res.status(201).json({
       id: user.id,
       name: user.name,
+      username: user.username,
+      phoneNumber: user.phoneNumber,
       email: user.email,
+      address: user.address,
+      role: user.role,
       token: generateToken(user.id),
     });
   } catch (error) {
@@ -26,18 +39,21 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
         id: user.id,
         name: user.name,
+        username: user.username,
         email: user.email,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
         token: generateToken(user.id),
       });
     } else {
-      res.status(401).json({ message: "Invalid email or password" });
+      res.status(401).json({ message: "Invalid username or password" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -53,8 +69,9 @@ const getProfile = async (req, res) => {
 
     res.status(200).json({
       name: user.name,
+      username: user.username,
       email: user.email,
-      university: user.university,
+      phoneNumber: user.phoneNumber,
       address: user.address,
     });
   } catch (error) {
