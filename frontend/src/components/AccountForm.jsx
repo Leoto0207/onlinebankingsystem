@@ -2,100 +2,145 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../axiosConfig";
 
-const TaskForm = ({
+const AccountForm = ({
   bankAcc,
   setBankAcc,
   editingBankAcc,
   setEditingBankAcc,
 }) => {
+  const [userList, setUserList] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    deadline: "",
+    userId: null,
+    accNum: "",
+    balance: 0.0,
+    accType: "",
   });
 
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (editingTask) {
+    const fetchUserList = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get("/api/auth/userList", {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        console.log("fetchUserList", response.data);
+        setUserList(response.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert("failed to get user list.");
+      }
+    };
+    fetchUserList();
+  }, []);
+  useEffect(() => {
+    if (editingBankAcc) {
       setFormData({
-        title: editingTask.title,
-        description: editingTask.description,
-        deadline: editingTask.deadline,
+        accNum: editingBankAcc.accNum,
+        balance: editingBankAcc.balance,
+        accType: editingBankAcc.accType,
+        userId: editingBankAcc.userId,
       });
     } else {
-      setFormData({ title: "", description: "", deadline: "" });
+      setFormData({ accNum: "", balance: 0.0, accType: "", userId: null });
     }
-  }, [editingTask]);
+  }, [editingBankAcc]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingTask) {
+      if (editingBankAcc) {
         const response = await axiosInstance.put(
-          `/api/tasks/${editingTask._id}`,
+          `/api/bkaccs/${editingBankAcc._id}`,
           formData,
           {
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        setTasks(
-          tasks.map((task) =>
-            task._id === response.data._id ? response.data : task
+        setBankAcc(
+          bankAcc.map((acc) =>
+            acc._id === response.data._id ? response.data : acc
           )
         );
       } else {
-        const response = await axiosInstance.post("/api/tasks", formData, {
+        const { userId } = formData;
+        if (!userId) {
+          alert("Please choose a user to create an account.");
+          return;
+        }
+        const response = await axiosInstance.post("/api/bkaccs", formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        setTasks([...tasks, response.data]);
+        setBankAcc([...bankAcc, response.data]);
       }
-      setEditingTask(null);
-      setFormData({ title: "", description: "", deadline: "" });
+      setEditingBankAcc(null);
+      setFormData({ accNum: "", accType: "", balance: 0.0, userId: "" });
     } catch (error) {
-      alert("Failed to save task.");
+      alert("Failed to save bank account.");
     }
   };
-
+  if (loading) {
+    return (
+      <div className="text-center mt-20">
+        <button type="button" class="bg-indigo-500 ..." disabled>
+          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
+          Loading...
+        </button>
+      </div>
+    );
+  }
   return (
     <form
       onSubmit={handleSubmit}
       className="bg-white p-6 shadow-md rounded mb-6"
     >
       <h1 className="text-2xl font-bold mb-4">
-        {editingTask
-          ? "Your Form Name: Edit Operation"
-          : "Your Form Name: Create Operation"}
+        {editingBankAcc ? "Edit Account" : "Create Account"}
       </h1>
+      <select
+        value={selectedUserId}
+        onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
+        className="w-full p-2 border rounded mb-4"
+      >
+        <option value="">-- Choose a user --</option>
+        {userList.map((user) => (
+          <option key={user._id} value={user._id}>
+            {user.name}
+          </option>
+        ))}
+      </select>
       <input
         type="text"
-        placeholder="Title"
-        value={formData.title}
-        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+        placeholder="Account Number"
+        value={formData.accNum}
+        onChange={(e) => setFormData({ ...formData, accNum: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
         type="text"
-        placeholder="Description"
-        value={formData.description}
-        onChange={(e) =>
-          setFormData({ ...formData, description: e.target.value })
-        }
+        placeholder="Balance"
+        value={formData.balance}
+        onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
-        type="date"
-        value={formData.deadline}
-        onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+        type="text"
+        value={formData.accType}
+        placeholder="Account Type"
+        onChange={(e) => setFormData({ ...formData, accType: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <button
         type="submit"
         className="w-full bg-blue-600 text-white p-2 rounded"
       >
-        {editingTask ? "Update Button" : "Create Button"}
+        {editingBankAcc ? "Update Button" : "Create Button"}
       </button>
     </form>
   );
 };
 
-export default TaskForm;
+export default AccountForm;

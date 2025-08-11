@@ -9,12 +9,12 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-router.route("/").get(protect, getBankAcc);
-router.route("/admin").get(protect, getAllAcc).post(protect, addBankAcc);
 router
-  .route("/admin/:id")
-  .put(protect, updateBankAcc)
-  .delete(protect, deleteBankAcc);
-// router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);
+  .route("/")
+  .get(protect, getBankAcc)
 
+  .post(protect, addBankAcc);
+router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);
+// router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);
+//   .get(protect, getAllAcc)
 module.exports = router;

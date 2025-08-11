@@ -11,10 +11,10 @@ const getBankAcc = async (req, res) => {
 };
 
 const addBankAcc = async (req, res) => {
-  const { accNum, balance, accType } = req.body;
+  const { userId, accNum, balance, accType } = req.body;
   try {
     const bankAcc = await BankAcc.create({
-      userId: req.user.id,
+      userId: userId,
       accNum,
       balance,
       accType,
