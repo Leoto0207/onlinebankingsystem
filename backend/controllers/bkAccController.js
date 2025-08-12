@@ -77,7 +77,7 @@ const updateBankAcc = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+//delete account
 const deleteBankAcc = async (req, res) => {
   try {
     const bankAcc = await BankAcc.findById(req.params.id);
