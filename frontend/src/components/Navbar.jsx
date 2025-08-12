@@ -18,8 +18,8 @@ const Navbar = () => {
       <div>
         {user ? (
           <>
-            <Link to="/home" className="mr-4">
-              Home
+            <Link to="/accounts" className="mr-4">
+              Account
             </Link>
             <Link to="/profile" className="mr-4">
               Profile
