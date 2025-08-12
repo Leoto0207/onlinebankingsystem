@@ -1,7 +1,9 @@
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   console.log("in bankacclist:", bankAcc);
   const handleDelete = async (accId) => {
@@ -15,6 +17,10 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
       alert("Failed to delete task.");
     }
   };
+  const handleViewTransactions = (accId) => {
+    navigate(`/transhist/${accId}`);
+  };
+
   // show updated account list
   return (
     <div>
@@ -29,17 +35,28 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
             Balance: ${acc.balance.toFixed(2)}
           </p>
           <div className="mt-2">
+            {user.role === "1" && (
+              <button
+                onClick={() => setEditingBankAcc(acc)}
+                className="mr-2 bg-bankDark text-white px-4 py-2 rounded"
+              >
+                Edit
+              </button>
+            )}
+            {user.role === "1" && (
+              <button
+                onClick={() => handleDelete(acc._id)}
+                className="mr-2 bg-bankRed text-white px-4 py-2 rounded"
+              >
+                Delete
+              </button>
+            )}
+
             <button
-              onClick={() => setEditingBankAcc(acc)}
-              className="mr-2 bg-bankDark text-white px-4 py-2 rounded"
+              onClick={() => handleViewTransactions(acc._id)}
+              className="bg-bankDark text-white px-4 py-2 rounded"
             >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(acc._id)}
-              className="bg-bankRed text-white px-4 py-2 rounded"
-            >
-              Delete
+              View Transaction History
             </button>
           </div>
         </div>
