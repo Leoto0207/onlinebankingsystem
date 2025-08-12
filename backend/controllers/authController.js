@@ -50,6 +50,7 @@ const loginUser = async (req, res) => {
         email: user.email,
         phoneNumber: user.phoneNumber,
         address: user.address,
+        role: user.role,
         token: generateToken(user.id),
       });
     } else {

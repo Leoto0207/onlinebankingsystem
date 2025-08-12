@@ -1,9 +1,9 @@
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../axiosConfig";
 
-const TaskList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
+const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   const { user } = useAuth();
-
+  console.log("in bankacclist:", bankAcc);
   const handleDelete = async (accId) => {
     try {
       await axiosInstance.delete(`/api/tasks/${accId}`, {
@@ -19,9 +19,10 @@ const TaskList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
     <div>
       {bankAcc.map((acc) => (
         <div key={acc._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
-          <h2 className="font-bold">{acc.title}</h2>
-          <p>{acc.description}</p>
-          <p className="text-sm text-gray-500"></p>
+          <h1 className="font-bold">{acc.userName}</h1>
+          <h2 className="font-bold">{acc.accNum}</h2>
+          <p>{acc.accType}</p>
+          <p className="text-sm text-gray-500">{acc.balance}</p>
           <div className="mt-2">
             <button
               onClick={() => setEditingBankAcc(acc)}
@@ -42,4 +43,4 @@ const TaskList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   );
 };
 
-export default TaskList;
+export default BankAccList;

@@ -8,8 +8,10 @@ const BankAccounts = () => {
   const { user } = useAuth();
   const [bankAcc, setBankAcc] = useState([]);
   const [editingBankAcc, setEditingBankAcc] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchBankAccounts = async () => {
       try {
         const response = await axiosInstance.get("/api/bkaccs", {
@@ -18,10 +20,12 @@ const BankAccounts = () => {
         setBankAcc(response.data);
       } catch (error) {
         alert("Failed to fetch bank account.");
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchBankAccounts();
+    console.log("fetchBankAccounts", bankAcc);
   }, [user]);
 
   return (
@@ -32,11 +36,13 @@ const BankAccounts = () => {
         editingBankAcc={editingBankAcc}
         setEditingBankAcc={setEditingBankAcc}
       />
-      <BankAccList
-        bankAcc={bankAcc}
-        setBankAcc={setBankAcc}
-        setEditingBankAcc={setEditingBankAcc}
-      />
+      {!loading && (
+        <BankAccList
+          bankAcc={bankAcc}
+          setBankAcc={setBankAcc}
+          setEditingBankAcc={setEditingBankAcc}
+        />
+      )}
     </div>
   );
 };

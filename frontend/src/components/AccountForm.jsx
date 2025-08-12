@@ -101,7 +101,7 @@ const AccountForm = ({
         {editingBankAcc ? "Edit Account" : "Create Account"}
       </h1>
       <select
-        value={selectedUserId}
+        value={formData.userId || ""}
         onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
         className="w-full p-2 border rounded mb-4"
       >
