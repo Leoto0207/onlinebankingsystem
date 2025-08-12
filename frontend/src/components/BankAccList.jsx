@@ -6,7 +6,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   console.log("in bankacclist:", bankAcc);
   const handleDelete = async (accId) => {
     try {
-      await axiosInstance.delete(`/api/accounts/${accId}`, {
+      await axiosInstance.delete(`/api/bkaccs/${accId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setBankAcc(bankAcc.filter((acc) => acc._id !== accId));
