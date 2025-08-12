@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+// connect to database for account
 const bankAccountSchema = new mongoose.Schema({
-  //for connect user data
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   accNum: { type: String, required: true },
   balance: {
