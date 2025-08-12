@@ -15,7 +15,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
       alert("Failed to delete task.");
     }
   };
-
+  // show updated account list
   return (
     <div>
       {bankAcc.map((acc) => (
