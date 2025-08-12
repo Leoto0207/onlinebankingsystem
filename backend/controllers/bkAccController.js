@@ -61,7 +61,7 @@ const addBankAcc = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+//update account
 const updateBankAcc = async (req, res) => {
   const { accNum, balance, accType } = req.body;
   try {
@@ -71,8 +71,17 @@ const updateBankAcc = async (req, res) => {
     bankAcc.accNum = accNum || bankAcc.accNum;
     bankAcc.balance = balance || bankAcc.balance;
     bankAcc.accType = accType || bankAcc.accType;
-    const updatedBankAcc = await bankAcc.save();
-    res.json(updatedBankAcc);
+    await bankAcc.save();
+    const updatedBankAcc = await BankAcc.findById(bankAcc._id).populate(
+      "userId",
+      "name"
+    );
+    res.json({
+      ...updatedBankAcc.toObject(),
+      userName: updatedBankAcc.userId.name,
+    });
+    // const updatedBankAcc = await bankAcc.save();
+    // res.json(updatedBankAcc);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
