@@ -21,9 +21,20 @@ const getBankAcc = async (req, res) => {
         },
       },
     ]);
-    res.json(bankAcc);
+    res.status(201).json(bankAcc);
   } catch (error) {
     console.log("getBankAcc error");
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getBankAccById = async (req, res) => {
+  try {
+    const bankAccById = await BankAcc.find({ userId: req.user.id });
+    if (!bankAccById) return [];
+    return res.json(bankAccById);
+  } catch (error) {
+    console.log("getBankAccById has error");
     res.status(500).json({ message: error.message });
   }
 };
@@ -79,20 +90,20 @@ const deleteBankAcc = async (req, res) => {
   }
 };
 
-const getAllAcc = async (req, res) => {
-  try {
-    const allAcc = await BankAcc.find({});
-    if (!allAcc) return [];
-    res.json(allAcc);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// const getAllAcc = async (req, res) => {
+//   try {
+//     const allAcc = await BankAcc.find({});
+//     if (!allAcc) return [];
+//     res.json(allAcc);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 module.exports = {
   getBankAcc,
+  getBankAccById,
   addBankAcc,
   updateBankAcc,
   deleteBankAcc,
-  getAllAcc,
 };

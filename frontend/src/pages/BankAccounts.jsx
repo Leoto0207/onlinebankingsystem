@@ -9,12 +9,14 @@ const BankAccounts = () => {
   const [bankAcc, setBankAcc] = useState([]);
   const [editingBankAcc, setEditingBankAcc] = useState(null);
   const [loading, setLoading] = useState(false);
+  console.log("user", user);
 
   useEffect(() => {
     setLoading(true);
     const fetchBankAccounts = async () => {
       try {
-        const response = await axiosInstance.get("/api/bkaccs", {
+        const api = user.role === "1" ? "/api/bkaccs" : `/api/bkaccs/user`;
+        const response = await axiosInstance.get(api, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setBankAcc(response.data);
@@ -28,14 +30,28 @@ const BankAccounts = () => {
     console.log("fetchBankAccounts", bankAcc);
   }, [user]);
 
+  if (loading) {
+    return (
+      <div className="text-center mt-20">
+        <button type="button" class="bg-indigo-500 ..." disabled>
+          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
+          Loading...
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-6">
-      <AccountForm
-        bankAcc={bankAcc}
-        setBankAcc={setBankAcc}
-        editingBankAcc={editingBankAcc}
-        setEditingBankAcc={setEditingBankAcc}
-      />
+      {user.role === "1" && (
+        <AccountForm
+          bankAcc={bankAcc}
+          setBankAcc={setBankAcc}
+          editingBankAcc={editingBankAcc}
+          setEditingBankAcc={setEditingBankAcc}
+        />
+      )}
+
       {!loading && (
         <BankAccList
           bankAcc={bankAcc}

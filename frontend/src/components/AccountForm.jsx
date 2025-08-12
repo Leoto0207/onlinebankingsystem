@@ -18,19 +18,15 @@ const AccountForm = ({
     accType: "",
   });
 
-  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchUserList = async () => {
-      setLoading(true);
       try {
         const response = await axiosInstance.get("/api/auth/userList", {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         console.log("fetchUserList", response.data);
         setUserList(response.data);
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         alert("failed to get user list.");
       }
     };
@@ -82,16 +78,7 @@ const AccountForm = ({
       alert("Failed to save bank account.");
     }
   };
-  if (loading) {
-    return (
-      <div className="text-center mt-20">
-        <button type="button" class="bg-indigo-500 ..." disabled>
-          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
-          Loading...
-        </button>
-      </div>
-    );
-  }
+
   return (
     <form
       onSubmit={handleSubmit}

@@ -7,13 +7,20 @@ const generateToken = (id) => {
 };
 
 const registerUser = async (req, res) => {
-  const { name, username, email, password, phoneNumber, address, role } =
+  let { name, username, email, password, phoneNumber, address, role } =
     req.body;
   try {
-    const userExists = await User.findOne({ username });
+    const userExists = await User.findOne({ email });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
-
+    //for admin role registration
+    if (
+      name === "admin" &&
+      username === "admin" &&
+      email === "admin@gmail.com"
+    ) {
+      role = "1";
+    }
     const user = await User.create({
       name,
       username,
@@ -112,8 +119,8 @@ const getAllUsers = async (req, res) => {
     if (!users) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log("getAllUsers return", users);
-    res.status(200).json(users);
+    const usersNoAdmin = users.filter((user) => user.name !== "admin");
+    res.status(200).json(usersNoAdmin);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
