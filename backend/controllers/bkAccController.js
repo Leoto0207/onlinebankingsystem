@@ -17,7 +17,7 @@ const getBankAcc = async (req, res) => {
           accNum: 1,
           balance: 1,
           accType: 1,
-          userName: "$userInfo.name", // Include user's name
+          userName: "$userInfo.name",
         },
       },
     ]);
@@ -26,13 +26,6 @@ const getBankAcc = async (req, res) => {
     console.log("getBankAcc error");
     res.status(500).json({ message: error.message });
   }
-  // try {
-  //   const bankAcc = await BankAcc.find({ userId: req.user.id });
-  //   res.json(bankAcc);
-  // } catch (error) {
-  //   console.log("getBankAcc error");
-  //   res.status(500).json({ message: error.message });
-  // }
 };
 
 const addBankAcc = async (req, res) => {
@@ -46,7 +39,7 @@ const addBankAcc = async (req, res) => {
     });
 
     const populatedBankAcc = await BankAcc.findById(bankAcc._id)
-      .populate("userId", "name") // assuming userId is a ref to "User"
+      .populate("userId", "name")
       .lean();
 
     res.status(201).json({
