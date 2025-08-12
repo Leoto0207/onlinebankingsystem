@@ -9,7 +9,6 @@ const AccountForm = ({
   setEditingBankAcc,
 }) => {
   const [userList, setUserList] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState("");
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     userId: null,
@@ -87,20 +86,34 @@ const AccountForm = ({
       <h1 className="text-2xl font-bold mb-4">
         {editingBankAcc ? "Edit Account" : "Create Account"}
       </h1>
-      <select
-        value={formData.userId || ""}
-        onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
-        className="w-full p-2 border rounded mb-4"
-      >
-        <option value="">-- Choose a user --</option>
-        {userList.map((user) => (
-          <option key={user._id} value={user._id}>
-            {user.name}
-          </option>
-        ))}
-      </select>
+      {editingBankAcc && (
+        <input
+          type="text"
+          readOnly
+          value={editingBankAcc.userName}
+          onChange={(e) => setFormData({ ...formData, accNum: e.target.value })}
+          className="w-full mb-4 p-2 border rounded"
+        />
+      )}
+      {!editingBankAcc && (
+        <select
+          disabled={editingBankAcc}
+          value={formData.userId || ""}
+          onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
+          className="w-full p-2 border rounded mb-4"
+        >
+          <option value="">-- Choose a user --</option>
+          {userList.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+      )}
+
       <input
         type="text"
+        readOnly={editingBankAcc}
         placeholder="Account Number"
         value={formData.accNum}
         onChange={(e) => setFormData({ ...formData, accNum: e.target.value })}
@@ -108,6 +121,7 @@ const AccountForm = ({
       />
       <input
         type="text"
+        readOnly={editingBankAcc}
         placeholder="Balance"
         value={formData.balance}
         onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
@@ -122,9 +136,9 @@ const AccountForm = ({
       />
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white p-2 rounded"
+        className="w-full bg-bankDark text-white p-2 rounded"
       >
-        {editingBankAcc ? "Update Button" : "Create Button"}
+        {editingBankAcc ? "Update Account" : "Create Account"}
       </button>
     </form>
   );
