@@ -28,13 +28,25 @@ const getBankAcc = async (req, res) => {
   }
 };
 
-const getBankAccById = async (req, res) => {
+const getBankAccByUserId = async (req, res) => {
   try {
     const bankAccById = await BankAcc.find({ userId: req.user.id });
     if (!bankAccById) return [];
     return res.json(bankAccById);
   } catch (error) {
-    console.log("getBankAccById has error");
+    console.log("getBankAccByUserId has error");
+    res.status(500).json({ message: error.message });
+  }
+};
+//for transaction
+const getBankAccByAccId = async (req, res) => {
+  try {
+    const bankAccById = await BankAcc.findById(req.params.id);
+    if (!bankAccById) return [];
+    console.log(`getBankAccByAccId ${bankAccById}`);
+    return res.json(bankAccById);
+  } catch (error) {
+    console.log("getBankAccByAccId has error");
     res.status(500).json({ message: error.message });
   }
 };
@@ -86,6 +98,43 @@ const updateBankAcc = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//update bank account balance
+const updateBankAccByAccNum = async (req, res) => {
+  const { fromAccount, toAccount, amount, createdAt } = req.body;
+  try {
+    console.log("in updateBankAccByAccNum", createdAt);
+    const fromBankAcc = await BankAcc.findOne({ accNum: fromAccount });
+    const toBankAcc = await BankAcc.findOne({ accNum: toAccount });
+
+    if (!fromBankAcc || !toBankAcc)
+      return res.status(404).json({ message: "Bank account not found" });
+
+    if (fromBankAcc.balance < amount) {
+      return res.status(404).json({ message: "Account balance is not enough" });
+    }
+    fromBankAcc.accNum = fromBankAcc.accNum;
+    fromBankAcc.balance = fromBankAcc.balance - amount;
+    fromBankAcc.accType = fromBankAcc.accType;
+    toBankAcc.accNum = toBankAcc.accNum;
+    toBankAcc.balance = toBankAcc.balance + amount;
+    toBankAcc.accType = toBankAcc.accType;
+    await fromBankAcc.save();
+    await toBankAcc.save();
+
+    const updatedBankAcc = await BankAcc.findById(fromBankAcc._id).populate(
+      "userId",
+      "name"
+    );
+    res.json({
+      ...updatedBankAcc.toObject(),
+      userName: updatedBankAcc.userId.name,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 //delete account
 const deleteBankAcc = async (req, res) => {
   try {
@@ -99,20 +148,12 @@ const deleteBankAcc = async (req, res) => {
   }
 };
 
-// const getAllAcc = async (req, res) => {
-//   try {
-//     const allAcc = await BankAcc.find({});
-//     if (!allAcc) return [];
-//     res.json(allAcc);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 module.exports = {
   getBankAcc,
-  getBankAccById,
+  getBankAccByUserId,
+  getBankAccByAccId,
   addBankAcc,
   updateBankAcc,
   deleteBankAcc,
+  updateBankAccByAccNum,
 };

@@ -1,16 +1,20 @@
 const express = require("express");
 const {
-  getBankAccById,
+  getBankAccByUserId,
+  getBankAccByAccId,
   getBankAcc,
   addBankAcc,
   updateBankAcc,
   deleteBankAcc,
+  updateBankAccByAccNum,
 } = require("../controllers/bkAccController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.route("/").get(protect, getBankAcc).post(protect, addBankAcc);
-router.route("/user").get(protect, getBankAccById);
+router.route("/user").get(protect, getBankAccByUserId);
+router.route("/getacc/:id").get(protect, getBankAccByAccId);
+router.route("/updatebalance").put(protect, updateBankAccByAccNum);
 router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);
 // router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);
 //   .get(protect, getAllAcc)
