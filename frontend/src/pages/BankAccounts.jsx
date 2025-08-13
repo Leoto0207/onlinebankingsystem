@@ -9,7 +9,6 @@ const BankAccounts = () => {
   const [bankAcc, setBankAcc] = useState([]);
   const [editingBankAcc, setEditingBankAcc] = useState(null);
   const [loading, setLoading] = useState(false);
-  console.log("user", user);
 
   useEffect(() => {
     setLoading(true);
