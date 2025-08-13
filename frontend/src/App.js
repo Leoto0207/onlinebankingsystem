@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Index from "./pages/Index";
 import BankAccounts from "./pages/BankAccounts";
+import TransHist from "./pages/TransHist";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/accounts" element={<BankAccounts />} />
+        <Route path="/transhist/:accId" element={<TransHist />} />
       </Routes>
     </Router>
   );
