@@ -40,16 +40,16 @@ const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
                 </td>
                 <td
                   className={`px-4 py-2 font-semibold ${
-                    t.status === "Success"
+                    t.status === "success"
                       ? "text-green-600"
-                      : t.status === "Pending"
+                      : t.status === "pending"
                       ? "text-yellow-600"
                       : "text-red-600"
                   }`}
                 >
                   {t.status}
                 </td>
-                {user.role === "1" && (
+                {user.role === "1" && t.status !== "success" && (
                   <td>
                     <button
                       onClick={() => setEditingTransHist(t)}

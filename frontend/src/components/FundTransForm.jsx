@@ -9,6 +9,7 @@ const FundTransForm = ({
   editingTransHist,
   setEditingTransHist,
 }) => {
+  const transStatus = ["pending", "success", "failed"];
   const { user } = useAuth();
   const today = new Date().toISOString().split("T")[0];
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const FundTransForm = ({
     toAccount: "",
     type: "transfer",
     amount: 0.0,
-    status: "success",
+    status: "pending",
     currency: "AUD",
     description: "",
     createdAt: today,
@@ -44,7 +45,7 @@ const FundTransForm = ({
         toAccount: "",
         type: "transfer",
         amount: 0.0,
-        status: "success",
+        status: "pending",
         currency: "AUD",
         description: "",
         createdAt: today,
@@ -78,6 +79,14 @@ const FundTransForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
+        const updateBankAccBalance = await axiosInstance.put(
+          `/api/bkaccs/updatebalance`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${user.token}` },
+          }
+        );
+        console.log("updateBankAccBalance", updateBankAccBalance);
         setTransHist(
           transHist.map((t) =>
             t._id === response.data._id ? response.data : t
@@ -102,14 +111,7 @@ const FundTransForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        const updateBankAccBalance = await axiosInstance.put(
-          `/api/bkaccs/updatebalance`,
-          formData,
-          {
-            headers: { Authorization: `Bearer ${user.token}` },
-          }
-        );
-        console.log("updateBankAccBalance", updateBankAccBalance);
+
         setTransHist([...transHist, response.data]);
       }
       setEditingTransHist(null);
@@ -137,37 +139,52 @@ const FundTransForm = ({
       <h1 className="text-2xl font-bold mb-4">
         {editingTransHist ? "Edit Transaction" : "Fund Transaction"}
       </h1>
-      <label id="accFrom" className="font-bold" htmlFor="accFrom">
-        From Account:
-      </label>
-      <select
-        disabled={editingTransHist}
-        value={formData.fromAccount || ""}
-        onChange={(e) =>
-          setFormData({ ...formData, fromAccount: e.target.value })
-        }
-        className="w-full p-2 border rounded mb-4"
-      >
-        <option value="">-- Choose a user --</option>
-
-        <option key={bankAcc._id} value={bankAcc.accNum}>
-          {bankAcc.accNum}
-        </option>
-      </select>
-      <label id="accTo" className="font-bold" htmlFor="accTo">
-        To Account:
-      </label>
+      <label id="accFrom" className="font-bold" htmlFor="accFrom"></label>
+      {editingTransHist && (
+        <select
+          value={formData.status || ""}
+          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+          className="w-full p-2 border rounded mb-4"
+        >
+          <option value="">-- Choose status --</option>
+          {transStatus.map((s, i) => (
+            <option key={i} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+      )}
       {editingTransHist && (
         <input
           type="text"
           readOnly
-          value={editingTransHist.toAccount}
-          onChange={(e) => setFormData({ ...formData, accNum: e.target.value })}
+          value={editingTransHist.fromAccount}
           className="w-full mb-4 p-2 border rounded"
         />
       )}
       {!editingTransHist && (
+        <select
+          disabled={editingTransHist}
+          value={formData.fromAccount || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, fromAccount: e.target.value })
+          }
+          className="w-full p-2 border rounded mb-4"
+        >
+          <option value="">-- Choose a user --</option>
+
+          <option key={bankAcc._id} value={bankAcc.accNum}>
+            {bankAcc.accNum}
+          </option>
+        </select>
+      )}
+
+      <label id="accTo" className="font-bold" htmlFor="accTo">
+        To Account:
+      </label>
+      {!editingTransHist && (
         <input
+          readOnly={editingTransHist}
           id="accTo"
           type="text"
           value={formData.toAccount}
@@ -178,7 +195,6 @@ const FundTransForm = ({
           className="w-full mb-4 p-2 border rounded"
         />
       )}
-
       <label id="curr" className="font-bold" htmlFor="curr">
         Currency:
       </label>

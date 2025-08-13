@@ -101,7 +101,7 @@ const updateBankAcc = async (req, res) => {
 
 //update bank account balance
 const updateBankAccByAccNum = async (req, res) => {
-  const { fromAccount, toAccount, amount, createdAt } = req.body;
+  const { fromAccount, toAccount, amount, createdAt, status } = req.body;
   try {
     console.log("in updateBankAccByAccNum", createdAt);
     const fromBankAcc = await BankAcc.findOne({ accNum: fromAccount });
@@ -114,10 +114,12 @@ const updateBankAccByAccNum = async (req, res) => {
       return res.status(404).json({ message: "Account balance is not enough" });
     }
     fromBankAcc.accNum = fromBankAcc.accNum;
-    fromBankAcc.balance = fromBankAcc.balance - amount;
+    fromBankAcc.balance =
+      status === "success" ? fromBankAcc.balance - amount : fromBankAcc.balance;
     fromBankAcc.accType = fromBankAcc.accType;
     toBankAcc.accNum = toBankAcc.accNum;
-    toBankAcc.balance = toBankAcc.balance + amount;
+    toBankAcc.balance =
+      status === "success" ? toBankAcc.balance + amount : toBankAcc.balance;
     toBankAcc.accType = toBankAcc.accType;
     await fromBankAcc.save();
     await toBankAcc.save();
