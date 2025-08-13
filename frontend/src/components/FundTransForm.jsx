@@ -121,7 +121,7 @@ const FundTransForm = ({
         toAccount: "",
         type: "transfer",
         amount: 0.0,
-        status: "success",
+        status: "pending",
         currency: "AUD",
         description: "",
         createdAt: today,

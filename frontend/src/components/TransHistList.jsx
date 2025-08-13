@@ -4,7 +4,16 @@ import axiosInstance from "../axiosConfig";
 const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
   const { user } = useAuth();
   console.log("in transHistList:", transHist);
-
+  const handleDelete = async (transId) => {
+    try {
+      await axiosInstance.delete(`/api/transactions/${transId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setTransHist(transHist.filter((t) => t._id !== transId));
+    } catch (error) {
+      alert("Failed to delete transaction history.");
+    }
+  };
   // show updated account list
   return (
     <div className="overflow-x-auto mx-4 md:mx-16 mb-20">
@@ -56,6 +65,12 @@ const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
                       className="mr-2 bg-bankDark text-white px-4 py-2 rounded"
                     >
                       Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(t._id)}
+                      className="mr-2 bg-bankRed text-white px-4 py-2 rounded"
+                    >
+                      Delete
                     </button>
                   </td>
                 )}

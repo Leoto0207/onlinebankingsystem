@@ -44,17 +44,17 @@ const addTransHist = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// update transaction history
 const updateTransHist = async (req, res) => {
-  const { title, description, completed, deadline } = req.body;
+  const { description, status, amount } = req.body;
   try {
-    const task = await TransHist.findById(req.params.id);
-    if (!task) return res.status(404).json({ message: "TransHist not found" });
-    task.title = title || task.title;
-    task.description = description || task.description;
-    task.completed = completed ?? task.completed;
-    task.deadline = deadline || task.deadline;
-    const updatedTransHist = await task.save();
+    const transHist = await TransHist.findById(req.params.id);
+    if (!transHist)
+      return res.status(404).json({ message: "TransHist not found" });
+    transHist.description = description || task.description;
+    transHist.status = status || transHist.status;
+    transHist.amount = amount || transHist.amount;
+    const updatedTransHist = await transHist.save();
     res.json(updatedTransHist);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -63,9 +63,10 @@ const updateTransHist = async (req, res) => {
 
 const deleteTransHist = async (req, res) => {
   try {
-    const task = await TransHist.findById(req.params.id);
-    if (!task) return res.status(404).json({ message: "TransHist not found" });
-    await task.remove();
+    const transHist = await TransHist.findById(req.params.id);
+    if (!transHist)
+      return res.status(404).json({ message: "TransHist not found" });
+    await transHist.remove();
     res.json({ message: "TransHist deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
