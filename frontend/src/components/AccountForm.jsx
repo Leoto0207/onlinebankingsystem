@@ -56,6 +56,7 @@ const AccountForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
+        if (!response) return setBankAcc(bankAcc);
         setBankAcc(
           bankAcc.map((acc) =>
             acc._id === response.data._id ? response.data : acc
@@ -76,6 +77,7 @@ const AccountForm = ({
       setEditingBankAcc(null);
       setFormData({ accNum: "", accType: "", balance: 0.0, userId: "" });
     } catch (error) {
+      // error handling
       alert("Failed to save bank account.");
     }
   };
