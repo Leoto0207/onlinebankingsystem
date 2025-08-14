@@ -11,7 +11,7 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-router.route("/").get(protect, getBankAcc).post(protect, addBankAcc); // connect to account to get info and add acc
+router.route("/").get(protect, getBankAcc).post(protect, addBankAcc); // get info and add acc
 router.route("/user").get(protect, getBankAccByUserId);
 router.route("/getacc/:id").get(protect, getBankAccByAccId);
 router.route("/updatebalance").put(protect, updateBankAccByAccNum);

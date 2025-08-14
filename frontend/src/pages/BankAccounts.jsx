@@ -51,7 +51,7 @@ const BankAccounts = () => {
           setEditingBankAcc={setEditingBankAcc}
         />
       )}
-
+      {/* view account */}
       {!loading && (
         <BankAccList
           bankAcc={bankAcc}

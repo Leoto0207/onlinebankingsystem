@@ -1,6 +1,6 @@
 const BankAcc = require("../models/BankAccount");
 
-// retrieve account info
+// retrieve acc info
 const getBankAcc = async (req, res) => {
   try {
     const bankAcc = await BankAcc.aggregate([
