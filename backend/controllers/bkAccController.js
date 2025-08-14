@@ -32,7 +32,7 @@ const getBankAcc = async (req, res) => {
 const getBankAccByUserId = async (req, res) => {
   try {
     const bankAccById = await BankAcc.find({ userId: req.user.id });
-    if (!bankAccById) return [];
+    if (!bankAccById) return res.json([]);
     return res.json(bankAccById);
   } catch (error) {
     console.log("getBankAccByUserId has error");
@@ -43,7 +43,7 @@ const getBankAccByUserId = async (req, res) => {
 const getBankAccByAccId = async (req, res) => {
   try {
     const bankAccById = await BankAcc.findById(req.params.id);
-    if (!bankAccById) return [];
+    if (!bankAccById) return res.json([]);
     console.log(`getBankAccByAccId ${bankAccById}`);
     return res.json(bankAccById);
   } catch (error) {
