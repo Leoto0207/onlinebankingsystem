@@ -80,6 +80,7 @@ const AccountForm = ({
     }
   };
   // form to create acc
+  // only type input is available in edit
   return (
     <form
       onSubmit={handleSubmit}
