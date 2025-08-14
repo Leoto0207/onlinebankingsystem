@@ -17,6 +17,7 @@ const TransHist = () => {
       setLoading(true);
 
       try {
+        // connect to database to show account list
         const accResponse = await axiosInstance.get(
           `/api/bkaccs/getacc/${accId}`,
           {
