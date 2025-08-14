@@ -4,6 +4,7 @@ import axiosInstance from "../axiosConfig";
 const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
   const { user } = useAuth();
   console.log("in transHistList:", transHist);
+  // delete trans hist route
   const handleDelete = async (transId) => {
     try {
       await axiosInstance.delete(`/api/transactions/${transId}`, {

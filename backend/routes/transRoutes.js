@@ -12,7 +12,7 @@ router.route("/").post(protect, addTransHist); //add trans hist
 router
   .route("/:id")
   .put(protect, updateTransHist)
-  .delete(protect, deleteTransHist);
+  .delete(protect, deleteTransHist); // connect to database for delete and edit
 router.route("/:accNum").get(protect, getTransHistByAccNum); //get trans hist by accnum
 
 // router.route("/:id").put(protect, updateBankAcc).delete(protect, deleteBankAcc);

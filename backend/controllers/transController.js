@@ -44,7 +44,7 @@ const addTransHist = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// update transaction history
+// update trans history
 const updateTransHist = async (req, res) => {
   const { description, status, amount } = req.body;
   try {
@@ -60,7 +60,7 @@ const updateTransHist = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// delete trans order
 const deleteTransHist = async (req, res) => {
   try {
     const transHist = await TransHist.findById(req.params.id);
