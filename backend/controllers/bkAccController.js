@@ -104,7 +104,6 @@ const updateBankAcc = async (req, res) => {
 const updateBankAccByAccNum = async (req, res) => {
   const { fromAccount, toAccount, amount, createdAt, status } = req.body;
   try {
-    console.log("in updateBankAccByAccNum", createdAt);
     const fromBankAcc = await BankAcc.findOne({ accNum: fromAccount });
     const toBankAcc = await BankAcc.findOne({ accNum: toAccount });
 
