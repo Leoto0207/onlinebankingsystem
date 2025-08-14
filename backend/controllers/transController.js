@@ -13,7 +13,7 @@ const getTransHistByAccNum = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
+// add trans hist
 const addTransHist = async (req, res) => {
   const {
     userId,

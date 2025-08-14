@@ -103,7 +103,7 @@ const FundTransForm = ({
           alert("Please choose a user to create a transaction.");
           return;
         }
-
+        // add trans to database
         const response = await axiosInstance.post(
           "/api/transactions",
           formData,

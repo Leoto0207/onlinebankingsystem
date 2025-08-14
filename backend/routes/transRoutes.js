@@ -8,7 +8,7 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-router.route("/").post(protect, addTransHist);
+router.route("/").post(protect, addTransHist); //add trans hist
 router
   .route("/:id")
   .put(protect, updateTransHist)
