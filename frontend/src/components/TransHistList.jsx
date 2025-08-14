@@ -59,6 +59,7 @@ const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
                 >
                   {t.status}
                 </td>
+                {/* edit if admin and not in success */}
                 {user.role === "1" && t.status !== "success" && (
                   <td>
                     <button
