@@ -130,7 +130,7 @@ const FundTransForm = ({
       alert("Failed to save transaction history.");
     }
   };
-
+  // form for creating transaction
   return (
     <form
       onSubmit={handleSubmit}
