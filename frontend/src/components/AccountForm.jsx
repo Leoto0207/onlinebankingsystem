@@ -43,7 +43,7 @@ const AccountForm = ({
       setFormData({ accNum: "", balance: 0.0, accType: "", userId: null });
     }
   }, [editingBankAcc]);
-
+  // to create account
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -78,7 +78,7 @@ const AccountForm = ({
       alert("Failed to save bank account.");
     }
   };
-
+  // form to create acc
   return (
     <form
       onSubmit={handleSubmit}

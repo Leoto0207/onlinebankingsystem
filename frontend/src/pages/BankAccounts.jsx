@@ -41,6 +41,7 @@ const BankAccounts = () => {
   }
 
   return (
+    // only admin can access form function
     <div className="container mx-auto p-6">
       {user.role === "1" && (
         <AccountForm
