@@ -138,7 +138,7 @@ const updateBankAccByAccNum = async (req, res) => {
   }
 };
 
-//delete account
+//delete account function
 const deleteBankAcc = async (req, res) => {
   try {
     const bankAcc = await BankAcc.findById(req.params.id);
