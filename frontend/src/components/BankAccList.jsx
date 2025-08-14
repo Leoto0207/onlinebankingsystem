@@ -35,6 +35,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
             Balance: ${acc.balance.toFixed(2)}
           </p>
           <div className="mt-2">
+            {/* edit button for admin */}
             {user.role === "1" && (
               <button
                 onClick={() => setEditingBankAcc(acc)}
