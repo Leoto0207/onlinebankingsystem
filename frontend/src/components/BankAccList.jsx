@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  console.log("in bankacclist:", bankAcc);
   // connect server to delete
   const handleDelete = async (accId) => {
     try {

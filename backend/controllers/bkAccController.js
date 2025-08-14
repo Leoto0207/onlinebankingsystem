@@ -74,7 +74,7 @@ const addBankAcc = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-//update account function
+//update account func
 const updateBankAcc = async (req, res) => {
   const { accNum, balance, accType } = req.body;
   try {
