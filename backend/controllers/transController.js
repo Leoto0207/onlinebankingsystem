@@ -1,5 +1,5 @@
 const TransHist = require("../models/TransHist");
-
+// get trans hist by acc num
 const getTransHistByAccNum = async (req, res) => {
   const { accNum } = req.params;
   try {
