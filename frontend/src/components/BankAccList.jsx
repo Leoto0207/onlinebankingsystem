@@ -6,6 +6,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   console.log("in bankacclist:", bankAcc);
+  // connect server to delete
   const handleDelete = async (accId) => {
     try {
       //server route to delete account
@@ -45,7 +46,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
                 Edit
               </button>
             )}
-            {/* delete button */}
+            {/* delete  */}
             {user.role === "1" && (
               <button
                 onClick={() => handleDelete(acc._id)}
