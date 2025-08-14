@@ -22,7 +22,8 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
     navigate(`/transhist/${accId}`);
   };
 
-  // view updated accounts
+  // view accounts
+  // view updated acc
   return (
     <div>
       {bankAcc.map((acc) => (
