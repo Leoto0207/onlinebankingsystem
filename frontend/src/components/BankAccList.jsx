@@ -14,7 +14,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
       });
       setBankAcc(bankAcc.filter((acc) => acc._id !== accId));
     } catch (error) {
-      alert("Failed to delete task.");
+      alert("Failed to delete acc.");
     }
   };
   // jump to another page to view
