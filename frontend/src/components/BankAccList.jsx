@@ -8,7 +8,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
   // connect server to delete
   const handleDelete = async (accId) => {
     try {
-      //server route to delete account
+      //call server to delete acc
       await axiosInstance.delete(`/api/bkaccs/${accId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
