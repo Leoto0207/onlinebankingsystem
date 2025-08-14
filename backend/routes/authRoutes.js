@@ -6,10 +6,13 @@ const {
   getProfile,
   getAllUsers,
 } = require("../controllers/authController");
-const { protect } = require("../middleware/authMiddleware");
+const {
+  protect,
+  signUpValidateInput,
+} = require("../middleware/authMiddleware");
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register", signUpValidateInput, registerUser);
 router.post("/login", loginUser);
 router.get("/profile", protect, getProfile);
 router.get("/userlist", protect, getAllUsers);

@@ -26,14 +26,22 @@ const protect = async (req, res, next) => {
 async function signUpValidateInput(req, res, next) {
   const { name, username, email, password, phoneNumber, address } = req.body;
   if (!name || !username || !email || !password || !phoneNumber || !address) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "name, email, username, password, phone number and address are required",
-      });
+    return res.status(400).json({
+      error:
+        "name, email, username, password, phone number and address are required",
+    });
   }
   next();
 }
 
-module.exports = { protect, signUpValidateInput };
+async function createAccValidateInput(req, res, next) {
+  const { userId, accNum, balance, accType } = req.body;
+  if (!userId || !accNum || !balance || !accType) {
+    return res.status(400).json({
+      error: "uesrId, accNum, balance and accType are required",
+    });
+  }
+  next();
+}
+
+module.exports = { protect, signUpValidateInput, createAccValidateInput };
