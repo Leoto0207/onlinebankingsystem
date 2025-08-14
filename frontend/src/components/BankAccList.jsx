@@ -22,6 +22,14 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
     navigate(`/transhist/${accId}`);
   };
 
+  if (!bankAcc || bankAcc.length < 1) {
+    return (
+      <div>
+        <h1 className="font-bold text-2xl">No Account</h1>
+      </div>
+    );
+  }
+
   // view accounts
   // view updated acc
   return (

@@ -24,7 +24,6 @@ const TransHist = () => {
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        console.log("TransHist", accResponse);
         if (!accResponse) return setBankAcc({});
         setBankAcc(accResponse.data);
         let accNum = accResponse.data.accNum;

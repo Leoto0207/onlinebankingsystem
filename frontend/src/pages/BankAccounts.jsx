@@ -18,8 +18,11 @@ const BankAccounts = () => {
         const response = await axiosInstance.get(api, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
+
+        if (!response) return setBankAcc([]);
         setBankAcc(response.data);
       } catch (error) {
+        //error handling
         alert("Failed to fetch bank account.");
       } finally {
         setLoading(false);
