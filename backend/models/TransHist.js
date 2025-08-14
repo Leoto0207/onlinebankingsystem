@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+// database
 const transactionSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
