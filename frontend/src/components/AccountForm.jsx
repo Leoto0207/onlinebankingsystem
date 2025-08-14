@@ -48,6 +48,7 @@ const AccountForm = ({
     e.preventDefault();
     try {
       if (editingBankAcc) {
+        // edit account
         const response = await axiosInstance.put(
           `/api/bkaccs/${editingBankAcc._id}`,
           formData,
