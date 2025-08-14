@@ -140,7 +140,9 @@ const FundTransForm = ({
       <h1 className="text-2xl font-bold mb-4">
         {editingTransHist ? "Edit Transaction" : "Fund Transaction"}
       </h1>
-      <label id="accFrom" className="font-bold" htmlFor="accFrom"></label>
+      <label id="accFrom" className="font-bold" htmlFor="accFrom">
+        Status:{" "}
+      </label>
       {editingTransHist && (
         <select
           value={formData.status || ""}

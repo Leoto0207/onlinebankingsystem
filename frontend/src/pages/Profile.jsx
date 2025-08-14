@@ -61,6 +61,9 @@ const Profile = () => {
     <div className="max-w-md mx-auto mt-20">
       <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded">
         <h1 className="text-2xl font-bold mb-4 text-center">Your Profile</h1>
+        <label id="name" className="font-bold" htmlFor="name">
+          Name:
+        </label>
         <input
           type="text"
           placeholder="Name"
@@ -68,6 +71,22 @@ const Profile = () => {
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="w-full mb-4 p-2 border rounded"
         />
+        <label id="username" className="font-bold" htmlFor="username">
+          Username:
+        </label>
+        <input
+          type="text"
+          readOnly
+          placeholder="Username"
+          value={formData.username}
+          onChange={(e) =>
+            setFormData({ ...formData, username: e.target.value })
+          }
+          className="w-full mb-4 p-2 border rounded"
+        />
+        <label id="email" className="font-bold" htmlFor="email">
+          Email:
+        </label>
         <input
           type="email"
           placeholder="Email"
@@ -75,15 +94,21 @@ const Profile = () => {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="w-full mb-4 p-2 border rounded"
         />
+        <label id="phoneNumber" className="font-bold" htmlFor="phoneNumber">
+          Phone Number:
+        </label>
         <input
           type="text"
-          placeholder="University"
-          value={formData.university}
+          placeholder="Phone Number"
+          value={formData.phoneNumber}
           onChange={(e) =>
-            setFormData({ ...formData, university: e.target.value })
+            setFormData({ ...formData, phoneNumber: e.target.value })
           }
           className="w-full mb-4 p-2 border rounded"
         />
+        <label id="address" className="font-bold" htmlFor="address">
+          Address:
+        </label>
         <input
           type="text"
           placeholder="Address"
@@ -95,7 +120,7 @@ const Profile = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded"
+          className="w-full bg-bankDark text-white p-2 rounded"
         >
           {loading ? "Updating..." : "Update Profile"}
         </button>
