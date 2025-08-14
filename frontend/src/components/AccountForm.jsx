@@ -65,7 +65,7 @@ const AccountForm = ({
       } else {
         const { userId } = formData;
         if (!userId) {
-          alert("You have to log in!");
+          alert("You have to choose a user");
           return;
         }
         // create acc route
@@ -78,7 +78,11 @@ const AccountForm = ({
       setFormData({ accNum: "", accType: "", balance: 0.0, userId: "" });
     } catch (error) {
       // error handling
-      alert("Failed to save bank account.");
+      if (error.status === 400 && error.response.data.error) {
+        alert(error.response.data.error);
+      } else {
+        alert("Failed to save bank account.");
+      }
     }
   };
   // form to create acc
