@@ -14,7 +14,7 @@ const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
       alert("Failed to delete transaction history.");
     }
   };
-  // show updated account list
+  // show updated trans hist list
   return (
     <div className="overflow-x-auto mx-4 md:mx-16 mb-20">
       <h1 className="text-2xl font-bold mb-4 mt-3 text-center">

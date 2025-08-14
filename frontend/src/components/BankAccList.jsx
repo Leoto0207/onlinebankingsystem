@@ -17,6 +17,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
       alert("Failed to delete task.");
     }
   };
+  // jump to another page to view
   const handleViewTransactions = (accId) => {
     navigate(`/transhist/${accId}`);
   };
@@ -53,7 +54,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
                 Delete
               </button>
             )}
-
+            {/* view trans history button */}
             <button
               onClick={() => handleViewTransactions(acc._id)}
               className="bg-bankDark text-white px-4 py-2 rounded"
