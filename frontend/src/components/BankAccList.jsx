@@ -46,7 +46,7 @@ const BankAccList = ({ bankAcc, setBankAcc, setEditingBankAcc }) => {
                 Edit
               </button>
             )}
-            {/* delete  */}
+            {/* delete for admin role  */}
             {user.role === "1" && (
               <button
                 onClick={() => handleDelete(acc._id)}
