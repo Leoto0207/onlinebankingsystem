@@ -113,6 +113,7 @@ const updateBankAccByAccNum = async (req, res) => {
     if (fromBankAcc.balance < amount) {
       return res.status(404).json({ message: "Account balance is not enough" });
     }
+    // only update when status is success
     fromBankAcc.accNum = fromBankAcc.accNum;
     fromBankAcc.balance =
       status === "success" ? fromBankAcc.balance - amount : fromBankAcc.balance;
