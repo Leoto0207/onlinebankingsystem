@@ -93,6 +93,7 @@ const FundTransForm = ({
           )
         );
       } else {
+        // validate balance
         if (formData.amount > bankAcc.balance) {
           alert("Account balance is not enough.");
           return;
