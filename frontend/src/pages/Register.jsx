@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosConfig";
 
 const Register = () => {
-  let [errorMsg, setErrorMsg] = useState(null);
-
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -27,22 +25,15 @@ const Register = () => {
       console.log(error);
       const { response } = error;
       if (response.data.error) {
-        setErrorMsg(response.data.error);
+        alert(response.data.error);
       } else {
-        setErrorMsg(response.data.message);
+        alert(response.data.message);
       }
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-20">
-      <div className="relative">
-        {errorMsg && (
-          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-3 rounded shadow-lg">
-            <p>{errorMsg}</p>
-          </div>
-        )}
-      </div>
       <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded">
         <h1 className="text-4xl font-bold mb-4 text-center">Register</h1>
         <label id="name" className="font-bold" htmlFor="name">
