@@ -86,7 +86,7 @@ const FundTransForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        console.log("updateBankAccBalance", updateBankAccBalance);
+        if (!response) return setTransHist(transHist);
         setTransHist(
           transHist.map((t) =>
             t._id === response.data._id ? response.data : t
@@ -98,7 +98,6 @@ const FundTransForm = ({
           alert("Account balance is not enough.");
           return;
         }
-        console.log(formData);
         const { userId } = formData;
         if (!userId) {
           alert("Please choose a user to create a transaction.");
@@ -112,7 +111,7 @@ const FundTransForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-
+        if (!response) return setTransHist(transHist);
         setTransHist([...transHist, response.data]);
       }
       setEditingTransHist(null);
@@ -128,6 +127,7 @@ const FundTransForm = ({
         createdAt: today,
       });
     } catch (error) {
+      // error handling
       alert("Failed to save transaction history.");
     }
   };

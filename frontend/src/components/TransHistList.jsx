@@ -12,6 +12,7 @@ const TransHistList = ({ transHist, setTransHist, setEditingTransHist }) => {
       });
       setTransHist(transHist.filter((t) => t._id !== transId));
     } catch (error) {
+      // error handling
       alert("Failed to delete transaction history.");
     }
   };
