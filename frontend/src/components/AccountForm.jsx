@@ -127,6 +127,7 @@ const AccountForm = ({
         onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
+      {/* account type for user */}
       <input
         type="text"
         value={formData.accType}
