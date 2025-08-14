@@ -8,16 +8,14 @@ const {
   deleteBankAcc,
   updateBankAccByAccNum,
 } = require("../controllers/bkAccController");
-const {
-  protect,
-  createAccValidateInput,
-} = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
+const { createAccValidateInput } = require("../middleware/accFormMiddleware");
 const router = express.Router();
 
 router
   .route("/")
   .get(protect, getBankAcc)
-  .post(protect, createAccValidateInput, addBankAcc); // get info and add acc
+  .post(protect, createAccValidateInput, addBankAcc); // get info and add acc, account form validation
 router.route("/user").get(protect, getBankAccByUserId);
 router.route("/getacc/:id").get(protect, getBankAccByAccId);
 router.route("/updatebalance").put(protect, updateBankAccByAccNum);
