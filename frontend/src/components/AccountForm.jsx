@@ -64,9 +64,10 @@ const AccountForm = ({
       } else {
         const { userId } = formData;
         if (!userId) {
-          alert("Please choose a user to create an account.");
+          alert("You have to log in!");
           return;
         }
+        // create acc route
         const response = await axiosInstance.post("/api/bkaccs", formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });

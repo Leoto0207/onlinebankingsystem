@@ -51,7 +51,7 @@ const getBankAccByAccId = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// add acc
 const addBankAcc = async (req, res) => {
   const { userId, accNum, balance, accType } = req.body;
   try {
