@@ -30,7 +30,6 @@ let port;
 
 describe("addBankAcc Function Test", () => {
   it("should create a new bank acc successfully", async () => {
-    // Mock request data
     const userId = new mongoose.Types.ObjectId();
     const req = {
       body: {
@@ -46,7 +45,6 @@ describe("addBankAcc Function Test", () => {
       json: sinon.spy(),
     };
 
-    // Mock acc that would be created
     const createdBankAcc = {
       _id: new mongoose.Types.ObjectId(),
       ...req.body,
@@ -63,10 +61,8 @@ describe("addBankAcc Function Test", () => {
       .stub(BankAccModel, "findById")
       .returns({ populate: populateStub });
 
-    // Call function
     await addBankAcc(req, res);
 
-    // Assertions
     expect(
       createStub.calledOnceWith({
         userId,
@@ -81,20 +77,16 @@ describe("addBankAcc Function Test", () => {
 
     expect(res.status.calledWith(201)).to.be.true;
     expect(res.json.calledWithMatch({ userName: "Peter" })).to.be.true;
-    // Mock response object
 
-    // Restore stubbed methods
     createStub.restore();
     findByIdStub.restore();
   });
 
   it("should return 500 if an error occurs", async () => {
-    // Stub Task.create to throw an error
     const createStub = sinon
       .stub(BankAccModel, "create")
       .throws(new Error("DB Error"));
 
-    // Mock request data
     const req = {
       user: { id: new mongoose.Types.ObjectId() },
       body: {
@@ -104,34 +96,29 @@ describe("addBankAcc Function Test", () => {
       },
     };
 
-    // Mock response object
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
 
-    // Call function
     await addBankAcc(req, res);
 
-    // Assertions
     expect(res.status.calledWith(500)).to.be.true;
     expect(res.json.calledWithMatch({ message: "DB Error" })).to.be.true;
 
-    // Restore stubbed methods
     createStub.restore();
   });
 });
 //#2
 describe("Update Function Test", () => {
   it("should update bank acc successfully", async () => {
-    // Mock task data
     const bankAccId = new mongoose.Types.ObjectId();
     const existingBankAcc = {
       _id: bankAccId,
       accNum: "123123",
       balance: 100.0,
       accType: "Savings",
-      save: sinon.stub().resolvesThis(), // Mock save method
+      save: sinon.stub().resolvesThis(),
     };
     const populatedBankAcc = {
       toObject: () => ({
@@ -143,14 +130,12 @@ describe("Update Function Test", () => {
       userId: { name: "Peter" },
     };
 
-    // Stub Task.findById to return mock task
     const findByIdStub = sinon.stub(BankAccModel, "findById");
     findByIdStub.onFirstCall().resolves(existingBankAcc);
     findByIdStub.onSecondCall().returns({
       populate: sinon.stub().returns(populatedBankAcc),
     });
 
-    // Mock request & response
     const req = {
       params: { id: bankAccId },
       body: { balance: 50, accType: "Premium" },
@@ -160,10 +145,8 @@ describe("Update Function Test", () => {
       status: sinon.stub().returnsThis(),
     };
 
-    // Call function
     await updateBankAcc(req, res);
 
-    // Assertions
     expect(existingBankAcc.balance).to.equal(50);
     expect(existingBankAcc.accType).to.equal("Premium");
 
@@ -173,11 +156,10 @@ describe("Update Function Test", () => {
     expect(res.status.called).to.be.false;
     expect(res.json.calledOnceWithMatch({ userName: "Peter" })).to.be.true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 
-  it("should return 404 if task is not found", async () => {
+  it("should return 404 if bank account is not found", async () => {
     const findByIdStub = sinon.stub(BankAccModel, "findById").resolves(null);
 
     const req = { params: { id: new mongoose.Types.ObjectId() }, body: {} };
@@ -263,46 +245,36 @@ describe("getBankAcc Function Test", () => {
       .stub(BankAccModel, "find")
       .throws(new Error("DB Error"));
 
-    // Assertions
     expect(res.status.calledWith(500)).to.be.true;
     expect(res.json.calledWithMatch({ message: "DB Error" })).to.be.true;
 
-    // Restore stubbed methods
     findStub.restore();
   });
 });
 
 describe("delete Function Test", () => {
   it("should delete an account successfully", async () => {
-    // Mock request data
     const req = { params: { id: new mongoose.Types.ObjectId().toString() } };
 
-    // Mock task found in the database
     const bankAcc = { remove: sinon.stub().resolves() };
 
-    // Stub Task.findById to return the mock task
     const findByIdStub = sinon.stub(BankAccModel, "findById").resolves(bankAcc);
 
-    // Mock response object
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
 
-    // Call function
     await deleteBankAcc(req, res);
 
-    // Assertions
     expect(findByIdStub.calledOnceWith(req.params.id)).to.be.true;
     expect(bankAcc.remove.calledOnce).to.be.true;
     expect(res.json.calledWith({ message: "Bank account deleted" })).to.be.true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 
-  it("should return 404 if task is not found", async () => {
-    // Stub Task.findById to return null
+  it("should return 404 if bank account is not found", async () => {
     const findByIdStub = sinon.stub(BankAccModel, "findById").resolves(null);
     const res = {
       status: sinon.stub().returnsThis(),
@@ -310,49 +282,39 @@ describe("delete Function Test", () => {
     };
     const req = { params: { id: new mongoose.Types.ObjectId().toString() } };
 
-    // Call function
     await deleteBankAcc(req, res);
 
-    // Assertions
     expect(findByIdStub.calledOnceWith(req.params.id)).to.be.true;
     expect(res.status.calledWith(404)).to.be.true;
     expect(res.json.calledWith({ message: "Bank account not found" })).to.be
       .true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 
   it("should return 500 if an error occurs", async () => {
-    // Stub Task.findById to throw an error
     const findByIdStub = sinon
       .stub(BankAccModel, "findById")
       .throws(new Error("DB Error"));
 
-    // Mock request data
     const req = { params: { id: new mongoose.Types.ObjectId().toString() } };
 
-    // Mock response object
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
 
-    // Call function
     await deleteBankAcc(req, res);
 
-    // Assertions
     expect(res.status.calledWith(500)).to.be.true;
     expect(res.json.calledWithMatch({ message: "DB Error" })).to.be.true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 });
 
 describe("getBankAccByUserId Function Test", () => {
   it("should return bank acc for the given user by userid", async () => {
-    // Mock user ID
     const userId = new mongoose.Types.ObjectId();
     const accounts = [
       {
@@ -598,37 +560,29 @@ describe("updateTransHist", () => {
 
 describe("deleteTransHist Test", () => {
   it("should delete an account successfully", async () => {
-    // Mock request data
     const req = { params: { id: new mongoose.Types.ObjectId().toString() } };
 
-    // Mock task found in the database
     const transHist = { remove: sinon.stub().resolves() };
 
-    // Stub Task.findById to return the mock task
     const findByIdStub = sinon
       .stub(TransHistModel, "findById")
       .resolves(transHist);
 
-    // Mock response object
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.spy(),
     };
 
-    // Call function
     await deleteTransHist(req, res);
 
-    // Assertions
     expect(findByIdStub.calledOnceWith(req.params.id)).to.be.true;
     expect(transHist.remove.calledOnce).to.be.true;
     expect(res.json.calledWith({ message: "TransHist deleted" })).to.be.true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 
   it("should return 404 if transactions is not found", async () => {
-    // Stub Task.findById to return null
     const findByIdStub = sinon.stub(TransHistModel, "findById").resolves(null);
     const res = {
       status: sinon.stub().returnsThis(),
@@ -636,21 +590,17 @@ describe("deleteTransHist Test", () => {
     };
     const req = { params: { id: new mongoose.Types.ObjectId().toString() } };
 
-    // Call function
     await deleteTransHist(req, res);
 
-    // Assertions
     expect(findByIdStub.calledOnceWith(req.params.id)).to.be.true;
     expect(res.status.calledWith(404)).to.be.true;
     expect(res.json.calledWith({ message: "TransHist not found" })).to.be.true;
 
-    // Restore stubbed methods
     findByIdStub.restore();
   });
 });
 // updateBankAccByAccNum
 describe("updateBankAccByAccNum Function Test", () => {
-  // Mock bank accounts
   let fromBankAcc, toBankAcc;
 
   beforeEach(() => {
@@ -672,7 +622,7 @@ describe("updateBankAccByAccNum Function Test", () => {
   });
 
   afterEach(() => {
-    sinon.restore(); // Restore all stubs after each test
+    sinon.restore();
   });
 
   it("should update balances successfully when status is success", async () => {
