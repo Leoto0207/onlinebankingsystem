@@ -83,4 +83,4 @@ jobs:
             echo "No PM2 processes to restart"
           fi
 
-      - run: pm2 restart all
+      - run: pm2 restart all || true
