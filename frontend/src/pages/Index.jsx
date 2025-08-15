@@ -5,7 +5,7 @@ const Index = () => {
         Welcome to AusBank
       </h1>
 
-      <img src="/bank.jpg" alt="bank picture" className="w-full h-auto" />
+      <img src="/bank.jpg" alt="bank logo" className="w-full h-auto" />
     </div>
   );
 };
