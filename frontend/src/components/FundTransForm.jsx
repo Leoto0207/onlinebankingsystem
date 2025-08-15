@@ -51,7 +51,7 @@ const FundTransForm = ({
         createdAt: today,
       });
     }
-  }, [editingTransHist]);
+  }, [editingTransHist, user.id, bankAcc.accNum, today]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,13 +79,9 @@ const FundTransForm = ({
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        const updateBankAccBalance = await axiosInstance.put(
-          `/api/bkaccs/updatebalance`,
-          formData,
-          {
-            headers: { Authorization: `Bearer ${user.token}` },
-          }
-        );
+        await axiosInstance.put(`/api/bkaccs/updatebalance`, formData, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
         if (!response) return setTransHist(transHist);
         setTransHist(
           transHist.map((t) =>

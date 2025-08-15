@@ -30,7 +30,7 @@ const AccountForm = ({
       }
     };
     fetchUserList();
-  }, []);
+  }, [user.token]);
   useEffect(() => {
     if (editingBankAcc) {
       setFormData({

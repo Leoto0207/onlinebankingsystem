@@ -29,7 +29,6 @@ const BankAccounts = () => {
       }
     };
     fetchBankAccounts();
-    console.log("fetchBankAccounts", bankAcc);
   }, [user]);
 
   if (loading) {
