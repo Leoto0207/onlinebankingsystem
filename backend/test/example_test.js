@@ -109,7 +109,7 @@ describe("addBankAcc Function Test", () => {
     createStub.restore();
   });
 });
-//#2
+
 describe("Update Function Test", () => {
   it("should update bank acc successfully", async () => {
     const bankAccId = new mongoose.Types.ObjectId();
